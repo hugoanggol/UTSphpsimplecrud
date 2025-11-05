@@ -1,182 +1,164 @@
-<?php 
+<?php
 
-// Memasukkan file konfigurasi database
 include_once 'db-config.php';
 
-class Mahasiswa extends Database {
+class Penduduk extends Database {
 
-    // Method untuk input data mahasiswa
-    public function inputMahasiswa($data){
-        // Mengambil data dari parameter $data
-        $nim      = $data['nim'];
-        $nama     = $data['nama'];
-        $prodi    = $data['prodi'];
-        $alamat   = $data['alamat'];
-        $provinsi = $data['provinsi'];
-        $email    = $data['email'];
-        $telp     = $data['telp'];
-        $status   = $data['status'];
-        // Menyiapkan query SQL untuk insert data menggunakan prepared statement
-        $query = "INSERT INTO tb_mahasiswa (nim_mhs, nama_mhs, prodi_mhs, alamat, provinsi, email, telp, status_mhs) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+    // Input data penduduk
+    public function inputPenduduk($data){
+        $id       = $data['id_pnddk'];
+        $nik        = $data['nik'];
+        $nama       = $data['nama'];
+        $tempat     = $data['tempat'];
+        $tanggal    = $data['tanggal'];
+        $tahun      = $data['tahun'];
+        $provinsi   = $data['provinsi'];
+        $agama      = $data['agama'];
+        $gender     = $data['gender'];
+        $status     = $data['status'];
+        $alamat     = $data['alamat'];
+
+        $query = "INSERT INTO tb_penduduk (nik, nama, tempat_lhr, tanggal_lhr, tahun_lhr, provinsi, agama, gender, sts, alamat)
+                  VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         $stmt = $this->conn->prepare($query);
-        // Mengecek apakah statement berhasil disiapkan
-        if(!$stmt){
-            return false;
-        }
-        // Memasukkan parameter ke statement
-        $stmt->bind_param("ssssssss", $nim, $nama, $prodi, $alamat, $provinsi, $email, $telp, $status);
+        if(!$stmt) return false;
+
+        $stmt->bind_param("ssssssssss",$nik, $nama, $tempat, $tanggal, $tahun, $provinsi, $agama, $gender, $status, $alamat);
         $result = $stmt->execute();
         $stmt->close();
-        // Mengembalikan hasil eksekusi query
         return $result;
     }
 
-    // Method untuk mengambil semua data mahasiswa
-    public function getAllMahasiswa(){
-        // Menyiapkan query SQL untuk mengambil data mahasiswa beserta prodi dan provinsi
-        $query = "SELECT id_mhs, nim_mhs, nama_mhs, nama_prodi, nama_provinsi, alamat, email, telp, status_mhs 
-                  FROM tb_mahasiswa
-                  JOIN tb_prodi ON prodi_mhs = kode_prodi
+    // Ambil semua data penduduk
+    public function getAllPenduduk(){
+        $query = "SELECT id_pnddk, nik, nama, tempat_lhr, tanggal_lhr, tahun_lhr, provinsi, agama, gender, sts, alamat
+                  FROM tb_penduduk
+                  JOIN tb_agama ON agama = kode_agama
                   JOIN tb_provinsi ON provinsi = id_provinsi";
         $result = $this->conn->query($query);
-        // Menyiapkan array kosong untuk menyimpan data mahasiswa
-        $mahasiswa = [];
-        // Mengecek apakah ada data yang ditemukan
+        $penduduk = [];
+
         if($result->num_rows > 0){
-            // Mengambil setiap baris data dan memasukkannya ke dalam array
-            while($row = $result->fetch_assoc()) {
-                $mahasiswa[] = [
-                    'id' => $row['id_mhs'],
-                    'nim' => $row['nim_mhs'],
-                    'nama' => $row['nama_mhs'],
-                    'prodi' => $row['nama_prodi'],
-                    'provinsi' => $row['nama_provinsi'],
-                    'alamat' => $row['alamat'],
-                    'email' => $row['email'],
-                    'telp' => $row['telp'],
-                    'status' => $row['status_mhs']
+            while($row = $result->fetch_assoc()){
+                $penduduk[] = [
+                    'id'         => $row['id_pnddk'],
+                    'nik'        => $row['nik'],
+                    'nama'       => $row['nama'],
+                    'tempat'     => $row['tempat_lhr'],
+                    'tanggal'    => $row['tanggal_lhr'],
+                    'tahun'      => $row['tahun_lhr'],
+                    'provinsi'   => $row['provinsi'],
+                    'agama'      => $row['agama'],
+                    'gender'     => $row['gender'],
+                    'status'     => $row['sts'],
+                    'alamat'     => $row['alamat'],
                 ];
             }
         }
-        // Mengembalikan array data mahasiswa
-        return $mahasiswa;
+        return $penduduk;
     }
 
-    // Method untuk mengambil data mahasiswa berdasarkan ID
-    public function getUpdateMahasiswa($id){
-        // Menyiapkan query SQL untuk mengambil data mahasiswa berdasarkan ID menggunakan prepared statement
-        $query = "SELECT * FROM tb_mahasiswa WHERE id_mhs = ?";
+    // Ambil data penduduk berdasarkan ID
+    public function getUpdatePenduduk($id){
+        $query = "SELECT * FROM tb_penduduk WHERE id_pnddk = ?";
         $stmt = $this->conn->prepare($query);
-        if(!$stmt){
-            return false;
-        }
+        if(!$stmt) return false;
+
         $stmt->bind_param("i", $id);
         $stmt->execute();
         $result = $stmt->get_result();
         $data = false;
+
         if($result->num_rows > 0){
-            // Mengambil data mahasiswa  
             $row = $result->fetch_assoc();
-            // Menyimpan data dalam array
             $data = [
-                'id' => $row['id_mhs'],
-                'nim' => $row['nim_mhs'],
-                'nama' => $row['nama_mhs'],
-                'prodi' => $row['prodi_mhs'],
-                'alamat' => $row['alamat'],
-                'provinsi' => $row['provinsi'],
-                'email' => $row['email'],
-                'telp' => $row['telp'],
-                'status' => $row['status_mhs']
+                'id'         => $row['id_pnddk'],
+                'nik'        => $row['nik'],
+                'nama'       => $row['nama'],
+                'tempat'     => $row['tempat_lhr'],
+                'tanggal'    => $row['tanggal_lhr'],
+                'tahun'      => $row['tahun_lhr'],
+                'provinsi'   => $row['provinsi'],
+                'agama'      => $row['agama'],
+                'gender'     => $row['gender'],
+                'status'     => $row['sts'],
+                'alamat'     => $row['alamat'],
             ];
         }
         $stmt->close();
-        // Mengembalikan data mahasiswa
         return $data;
     }
 
-    // Method untuk mengedit data mahasiswa
-    public function editMahasiswa($data){
-        // Mengambil data dari parameter $data
-        $id       = $data['id'];
-        $nim      = $data['nim'];
-        $nama     = $data['nama'];
-        $prodi    = $data['prodi'];
-        $alamat   = $data['alamat'];
-        $provinsi = $data['provinsi'];
-        $email    = $data['email'];
-        $telp     = $data['telp'];
-        $status   = $data['status'];
-        // Menyiapkan query SQL untuk update data menggunakan prepared statement
-        $query = "UPDATE tb_mahasiswa SET nim_mhs = ?, nama_mhs = ?, prodi_mhs = ?, alamat = ?, provinsi = ?, email = ?, telp = ?, status_mhs = ? WHERE id_mhs = ?";
+    // Edit data penduduk
+    public function editPenduduk($data){
+        $nik        = $data['nik'];
+        $nama       = $data['nama'];
+        $tempat     = $data['tempat'];
+        $tanggal    = $data['tanggal'];
+        $tahun      = $data['tahun'];
+        $provinsi   = $data['provinsi'];
+        $agama      = $data['agama'];
+        $gender     = $data['gender'];
+        $status     = $data['status'];
+        $alamat     = $data['alamat'];
+
+        $query = "UPDATE tb_penduduk SET nik = ?, nama = ?, tempat_lhr = ?, tanggal_lhr = ?, tahun_lhr = ?, agama = ?, gender = ?, sts = ?, alamat = ? WHERE id_pnddk = ?";
         $stmt = $this->conn->prepare($query);
-        if(!$stmt){
-            return false;
-        }
-        // Memasukkan parameter ke statement
-        $stmt->bind_param("ssssssssi", $nim, $nama, $prodi, $alamat, $provinsi, $email, $telp, $status, $id);
+        if(!$stmt) return false;
+
+        $stmt->bind_param("sssssssssi", $nama, $tempat, $tanggal, $tahun, $provinsi, $agama, $gender, $status, $alamat, $id );
         $result = $stmt->execute();
         $stmt->close();
-        // Mengembalikan hasil eksekusi query
         return $result;
     }
 
-    // Method untuk menghapus data mahasiswa
-    public function deleteMahasiswa($id){
-        // Menyiapkan query SQL untuk delete data menggunakan prepared statement
-        $query = "DELETE FROM tb_mahasiswa WHERE id_mhs = ?";
+    // Hapus data penduduk
+    public function deletePenduduk($id){
+        $query = "DELETE FROM tb_penduduk WHERE id_pnddk = ?";
         $stmt = $this->conn->prepare($query);
-        if(!$stmt){
-            return false;
-        }
+        if(!$stmt) return false;
+
         $stmt->bind_param("i", $id);
         $result = $stmt->execute();
         $stmt->close();
-        // Mengembalikan hasil eksekusi query
         return $result;
     }
 
-    // Method untuk mencari data mahasiswa berdasarkan kata kunci
-    public function searchMahasiswa($kataKunci){
-        // Menyiapkan LIKE query untuk pencarian
+    // Cari data penduduk
+    public function searchPenduduk($kataKunci){
         $likeQuery = "%".$kataKunci."%";
-        // Menyiapkan query SQL untuk pencarian data mahasiswa menggunakan prepared statement
-        $query = "SELECT id_mhs, nim_mhs, nama_mhs, nama_prodi, nama_provinsi, alamat, email, telp, status_mhs 
-                  FROM tb_mahasiswa
-                  JOIN tb_prodi ON prodi_mhs = kode_prodi
+        $query = "SELECT id_pnddk, nik, nama, tempat_lhr, tanggal_lhr, tahun_lhr, provinsi, agama, gender, sts, alamat
+                  FROM tb_penduduk
+                  JOIN tb_agama ON agama = kode_agama
                   JOIN tb_provinsi ON provinsi = id_provinsi
-                  WHERE nim_mhs LIKE ? OR nama_mhs LIKE ?";
+                  WHERE nik LIKE ? OR nama LIKE ?";
         $stmt = $this->conn->prepare($query);
-        if(!$stmt){
-            // Mengembalikan array kosong jika statement gagal disiapkan
-            return [];
-        }
-        // Memasukkan parameter ke statement
+        if(!$stmt) return [];
+
         $stmt->bind_param("ss", $likeQuery, $likeQuery);
         $stmt->execute();
         $result = $stmt->get_result();
-        // Menyiapkan array kosong untuk menyimpan data mahasiswa
-        $mahasiswa = [];
+        $penduduk = [];
+
         if($result->num_rows > 0){
-            // Mengambil setiap baris data dan memasukkannya ke dalam array
-            while($row = $result->fetch_assoc()) {
-                // Menyimpan data mahasiswa dalam array
-                $mahasiswa[] = [
-                    'id' => $row['id_mhs'],
-                    'nim' => $row['nim_mhs'],
-                    'nama' => $row['nama_mhs'],
-                    'prodi' => $row['nama_prodi'],
-                    'provinsi' => $row['nama_provinsi'],
-                    'alamat' => $row['alamat'],
-                    'email' => $row['email'],
-                    'telp' => $row['telp'],
-                    'status' => $row['status_mhs']
+            while($row = $result->fetch_assoc()){
+                $penduduk[] = [
+                    'id'         => $row['id_pnddk'],
+                    'nik'        => $row['nik'],
+                    'nama'       => $row['nama'],
+                    'tempat'     => $row['tempat_lhr'],
+                    'tanggal'    => $row['tanggal_lhr'],
+                    'tahun'      => $row['tahun_lhr'],
+                    'provinsi'   => $row['provinsi'],
+                    'agama'      => $row['agama'],
+                    'gender'     => $row['gender'],
+                    'status'     => $row['sts'],
+                    'alamat'     => $row['alamat'],
                 ];
             }
         }
         $stmt->close();
-        // Mengembalikan array data mahasiswa yang ditemukan
-        return $mahasiswa;
+        return $penduduk;
     }
 
 }

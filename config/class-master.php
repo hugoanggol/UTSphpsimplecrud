@@ -5,20 +5,20 @@ include_once 'db-config.php';
 
 class MasterData extends Database {
 
-    // Method untuk mendapatkan daftar program studi
-    public function getProdi(){
-        $query = "SELECT * FROM tb_prodi";
+    // Method untuk mendapatkan daftar agama
+    public function getAgama(){
+        $query = "SELECT * FROM tb_agama";
         $result = $this->conn->query($query);
-        $prodi = [];
+        $agama = [];
         if ($result->num_rows > 0) {
             while($row = $result->fetch_assoc()) {
-                $prodi[] = [
-                    'id' => $row['kode_prodi'],
-                    'nama' => $row['nama_prodi']
+                $agama[] = [
+                    'id' => $row['kode_agama'],
+                    'nama' => $row['nama_agama']
                 ];
             }
         }
-        return $prodi;
+        return $agama;
     }
 
     // Method untuk mendapatkan daftar provinsi
@@ -37,71 +37,83 @@ class MasterData extends Database {
         return $provinsi;
     }
 
-    // Method untuk mendapatkan daftar status mahasiswa menggunakan array statis
+    // Method untuk mendapatkan daftar status penduduk menggunakan array statis
     public function getStatus(){
         return [
-            ['id' => 1, 'nama' => 'Aktif'],
-            ['id' => 2, 'nama' => 'Tidak Aktif'],
-            ['id' => 3, 'nama' => 'Cuti'],
-            ['id' => 4, 'nama' => 'Lulus']
+            ['id' => 1, 'nama' => 'Menikah'],
+            ['id' => 2, 'nama' => 'Belum Menikah'],
+           
+        
+            
         ];
     }
-
-    // Method untuk input data program studi
-    public function inputProdi($data){
-        $kodeProdi = $data['kode'];
-        $namaProdi = $data['nama'];
-        $query = "INSERT INTO tb_prodi (kode_prodi, nama_prodi) VALUES (?, ?)";
+//  Method untuk mendapatkan daftar gender penduduk menggunakan array statis
+ public function getGender(){
+        return [
+            ['id' => 1, 'nama' => 'Laki-laki'],
+            ['id' => 2, 'nama' => 'Perempuan'],
+            
+        ];
+    }
+    // Method untuk input data agama
+    public function inputAgama($data){
+        $kodeAgama = $data['kode'];
+        $namaAgama = $data['nama'];
+        $query = "INSERT INTO tb_agama (kode_agama, nama_agama) VALUES (?, ?)";
         $stmt = $this->conn->prepare($query);
         if(!$stmt){
             return false;
         }
-        $stmt->bind_param("ss", $kodeProdi, $namaProdi);
+        $stmt->bind_param("ss", $kodeAgama, $namaAgama);
         $result = $stmt->execute();
         $stmt->close();
         return $result;
     }
 
-    // Method untuk mendapatkan data program studi berdasarkan kode
-    public function getUpdateProdi($id){
-        $query = "SELECT * FROM tb_prodi WHERE kode_prodi = ?";
-        $stmt = $this->conn->prepare($query);
-        if(!$stmt){
-            return false;
-        }
-        $stmt->bind_param("s", $id);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        $prodi = null;
-        if($result->num_rows > 0){
-            $row = $result->fetch_assoc();
-            $prodi = [
-                'id' => $row['kode_prodi'],
-                'nama' => $row['nama_prodi']
-            ];
-        }
-        $stmt->close();
-        return $prodi;
+   // Method untuk mendapatkan data agama berdasarkan kode
+public function getUpdateAgama($id){
+    $query = "SELECT * FROM tb_agama WHERE kode_agama = ?";
+    $stmt = $this->conn->prepare($query);
+    if(!$stmt){
+        return false;
     }
+    
+    $stmt->bind_param("s", $id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    
+    $agama = null;
+    if($result->num_rows > 0){
+        $row = $result->fetch_assoc();
+        $agama = [
+            'kode' => $row['kode_agama'],
+            'nama' => $row['nama_agama']
+        ];
+    }
+    
+    $stmt->close();
+    return $agama;
+}
 
-    // Method untuk mengedit data program studi
-    public function updateProdi($data){
-        $kodeProdi = $data['kode'];
-        $namaProdi = $data['nama'];
-        $query = "UPDATE tb_prodi SET nama_prodi = ? WHERE kode_prodi = ?";
+
+    // Method untuk mengedit data agama
+    public function updateAgama($data){
+        $kodeAgama = $data['kode'];
+        $namaAgama = $data['nama'];
+        $query = "UPDATE tb_agama SET nama_agama = ? WHERE kode_agama = ?";
         $stmt = $this->conn->prepare($query);
         if(!$stmt){
             return false;
         }
-        $stmt->bind_param("ss", $namaProdi, $kodeProdi);
+        $stmt->bind_param("ss", $namaAgama, $kodeAgama);
         $result = $stmt->execute();
         $stmt->close();
         return $result;
     }
 
-    // Method untuk menghapus data program studi
-    public function deleteProdi($id){
-        $query = "DELETE FROM tb_prodi WHERE kode_prodi = ?";
+    // Method untuk menghapus data agama
+    public function deleteAgama($id){
+        $query = "DELETE FROM tb_agama WHERE kode_agama = ?";
         $stmt = $this->conn->prepare($query);
         if(!$stmt){
             return false;
