@@ -63,8 +63,9 @@ if(isset($_GET['status'])){
                                     <form action="proses/proses-agama.php?aksi=updateagama" method="POST">
 									    <div class="card-body">
                                             <div class="mb-3">
-                                                <label for="kode" class="form-label">Kode Agama</label>
-                                               <input type="text" class="form-control" id="kode" name="kode" placeholder="Masukkan Nama Kode Agama" value="<?php echo $dataAgama['nama']; ?>" required readonly>
+                                                <label for="nama" class="form-label">Kode Agama</label>
+                                                <input type="text" class="form-control-plaintext" id="kode" name="kode" placeholder="Masukkan Kode Agama" value="<?php echo $dataAgama['id']; ?> " required readonly>
+                                            </div>
 											<div class="mb-3">
 												<label for="nama" class="form-label">Nama Agama</label>
 												<input type="text" class="form-control" id="nama" name="nama" placeholder="Masukkan Nama Agama" value="<?php echo $dataAgama['nama']; ?>" required>

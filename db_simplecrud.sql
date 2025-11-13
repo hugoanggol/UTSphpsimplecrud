@@ -1,5 +1,5 @@
 /*
-SQLyog Ultimate v12.4.3 (64 bit)
+SQLyog Ultimate v12.5.1 (64 bit)
 MySQL - 8.0.30 : Database - db_simplecrud
 *********************************************************************
 */
@@ -29,7 +29,6 @@ CREATE TABLE `tb_agama` (
 /*Data for the table `tb_agama` */
 
 insert  into `tb_agama`(`kode_agama`,`nama_agama`) values 
-('BUDDHA','Buddha'),
 ('HINDU','Hindu'),
 ('ISLAM','Islam'),
 ('KHATOLIK','Khatolik'),
@@ -43,19 +42,25 @@ DROP TABLE IF EXISTS `tb_penduduk`;
 CREATE TABLE `tb_penduduk` (
   `id_pnddk` int NOT NULL AUTO_INCREMENT,
   `nik` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `nama` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `nama` char(12) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `tempat_lhr` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `tanggal_lhr` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `tahun_lhr` year NOT NULL,
-  `provinsi` mediumint DEFAULT NULL,
-  `agama` enum('Islam','Kristen','Khatolik','Hindu','Buddha','Konghucu') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `gender` enum('laki-laki','perempuan') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `sts` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
   `alamat` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  PRIMARY KEY (`id_pnddk`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  `provinsi` mediumint NOT NULL,
+  `domisili` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `perkerjaan` char(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `agama` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+  `sts` tinyint(1) NOT NULL,
+  PRIMARY KEY (`id_pnddk`,`sts`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Data for the table `tb_penduduk` */
+
+insert  into `tb_penduduk`(`id_pnddk`,`nik`,`nama`,`tempat_lhr`,`tanggal_lhr`,`tahun_lhr`,`alamat`,`provinsi`,`domisili`,`perkerjaan`,`agama`,`sts`) values 
+(1,'2345678902345','sindy','labuan bajo','23',2007,'Manggarai',2,'Denpasar','Mahasiswa','DKV',1),
+(2,'2345678902345','sindy','labuan bajo','23',2007,'Manggarai',2,'Denpasar','Mahasiswa','ISLAM',1),
+(4,'23456789023','sindysdsffbh','labuan bajo','23',2007,'Manggarai',1,'Denpasar','Dosen','HINDU',1);
 
 /*Table structure for table `tb_provinsi` */
 
@@ -65,19 +70,19 @@ CREATE TABLE `tb_provinsi` (
   `id_provinsi` smallint NOT NULL AUTO_INCREMENT,
   `nama_provinsi` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   PRIMARY KEY (`id_provinsi`)
-) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Data for the table `tb_provinsi` */
 
 insert  into `tb_provinsi`(`id_provinsi`,`nama_provinsi`) values 
-(7,'Bali'),
-(8,'Nusa Tenggara Timur'),
-(9,'Nusa Tenggara Barat'),
-(10,'Jawa Timur'),
-(11,'Jawa Tengah'),
-(12,'Jawa Barat'),
-(13,'DKI Jakarta'),
-(14,'DI Yogyakarta');
+(1,'Bali'),
+(2,'Nusa Tenggara Timur'),
+(3,'Nusa Tenggara Barat'),
+(4,'Jawa Timur'),
+(5,'Jawa Tengah'),
+(6,'Jawa Barat'),
+(7,'Jakarta'),
+(8,'Yogyakarta');
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;

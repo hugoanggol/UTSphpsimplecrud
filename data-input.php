@@ -2,14 +2,12 @@
 
 include_once 'config/class-master.php';
 $master = new MasterData();
-// Mengambil daftar Agama, provinsi, dan status penduduk
+// Mengambil daftar agama, provinsi, dan status penduduk
 $agamaList = $master->getAgama();
 // Mengambil daftar provinsi
 $provinsiList = $master->getProvinsi();
 // Mengambil daftar status penduduk
 $statusList = $master->getStatus();
-// mengambil daftar gendre penduduk
-$genderList = $master->getGender();
 // Menampilkan alert berdasarkan status yang diterima melalui parameter GET
 if(isset($_GET['status'])){
     // Mengecek nilai parameter GET 'status' dan menampilkan alert yang sesuai menggunakan JavaScript
@@ -38,12 +36,12 @@ if(isset($_GET['status'])){
 					<div class="container-fluid">
 						<div class="row">
 							<div class="col-sm-6">
-								<h3 class="mb-0">Input Data Penduduk</h3>
+								<h3 class="mb-0">Input Penduduk</h3>
 							</div>
 							<div class="col-sm-6">
 								<ol class="breadcrumb float-sm-end">
 									<li class="breadcrumb-item"><a href="index.php">Beranda</a></li>
-									<li class="breadcrumb-item active" aria-current="page">Input Data</li>
+									<li class="breadcrumb-item active" aria-current="page">Input Data Penduduk</li>
 								</ol>
 							</div>
 						</div>
@@ -70,24 +68,28 @@ if(isset($_GET['status'])){
                                     <form action="proses/proses-input.php" method="POST">
 									    <div class="card-body">
                                             <div class="mb-3">
-                                                <label for="nik" class="form-label">Nomor Induk Kependudukan (NIK)</label>
-                                                <input type="number" class="form-control" id="nik" name="nik" placeholder="Masukkan NIK Penduduk" required>
+                                                <label for="nik" class="form-label">Nomor Induk Kependuduk (NIK)</label>
+                                                <input type="number" class="form-control" id="nik" name="nik" placeholder="Masukkan NIK Kependuduk" required>
                                             </div>
                                             <div class="mb-3">
                                                 <label for="nama" class="form-label">Nama Lengkap</label>
-                                                <input type="text" class="form-control" id="nama" name="nama" placeholder="Masukkan Nama Lengkap Penduduk" required>
+                                                <input type="text" class="form-control" id="nama" name="nama" placeholder="Masukkan Nama Lengkap penduduk" required>
                                             </div>
-                                            <div class="mb-3">
+                                             <div class="mb-3">
                                                 <label for="tempat" class="form-label">Tempat Lahir</label>
                                                 <input type="text" class="form-control" id="tempat" name="tempat" placeholder="Masukkan Tempat Lahir" required>
                                             </div>
-                                            <div class="mb-3">
+                                             <div class="mb-3">
                                                 <label for="tanggal" class="form-label">Tanggal Lahir</label>
-                                                <input type="number" class="form-control" id="tanggal" name="tanggal" placeholder="Masukkan Tanggal Lahir" required>
+                                                <input type="number" class="form-control" id="tanggal" name="tanggal" placeholder="Masukkan  Tanggal Lahir" required>
                                             </div>
-                                            <div class="mb-3">
+                                             <div class="mb-3">
                                                 <label for="tahun" class="form-label">Tahun Lahir</label>
                                                 <input type="number" class="form-control" id="tahun" name="tahun" placeholder="Masukkan Tahun Lahir" required>
+                                            </div>
+                                             <div class="mb-3">
+                                                <label for="alamat" class="form-label">Alamat</label>
+                                               <input type="text" class="form-control"  id="alamat" name="alamat" rows="3" placeholder="Masukkan Alamat Lengkap Sesuai KTP" required>
                                             </div>
                                             <div class="mb-3">
                                                 <label for="provinsi" class="form-label">Provinsi</label>
@@ -100,25 +102,23 @@ if(isset($_GET['status'])){
                                                     }
                                                     ?>
                                                 </select>
+                                            </div>
                                             <div class="mb-3">
+                                                <label for="domisili" class="form-label">Domisili</label>
+                                                <input type="text" class="form-control" id="domisili" name="domisili" placeholder="Masukkan Domisili" required>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="perkerjaan" class="form-label">Perkerjaan</label>
+                                                <input type="text" class="form-control" id="perkerjaan" name="perkerjaan" placeholder="Masukkan Perkerjaan" required>
+                                            </div>
+                                             <div class="mb-3">
                                                 <label for="agama" class="form-label">Agama</label>
                                                 <select class="form-select" id="agama" name="agama" required>
                                                     <option value="" selected disabled>Pilih Agama</option>
                                                     <?php 
-                                                    // Iterasi daftar program studi dan menampilkannya sebagai opsi dalam dropdown
+                                                    // Iterasi daftar agama dan menampilkannya sebagai opsi dalam dropdown
                                                     foreach ($agamaList as $agama){
                                                         echo '<option value="'.$agama['id'].'">'.$agama['nama'].'</option>';
-                                                    }
-                                                    ?>
-                                                </select>
-                                            <div class="mb-3">
-                                                <label for="gender" class="form-label">Gender</label>
-                                                <select class="form-select" id="gender" name="gender" required>
-                                                    <option value="" selected disabled>Pilih Gender</option>
-                                                    <?php 
-                                                    // Iterasi daftar status penduduk dan menampilkannya sebagai opsi dalam dropdown
-                                                    foreach ($genderList as $gender){
-                                                        echo '<option value="'.$gender['id'].'">'.$gender['nama'].'</option>';
                                                     }
                                                     ?>
                                                 </select>
@@ -128,16 +128,12 @@ if(isset($_GET['status'])){
                                                 <select class="form-select" id="status" name="status" required>
                                                     <option value="" selected disabled>Pilih Status</option>
                                                     <?php 
-                                                    // Iterasi daftar status penduduk dan menampilkannya sebagai opsi dalam dropdown
+                                                    // Iterasi daftar status mahasiswa dan menampilkannya sebagai opsi dalam dropdown
                                                     foreach ($statusList as $status){
                                                         echo '<option value="'.$status['id'].'">'.$status['nama'].'</option>';
                                                     }
                                                     ?>
                                                 </select>
-                                            </div>
-                                            <div class="mb-3">
-                                                <label for="alamat" class="form-label">Alamat</label>
-                                                <textarea class="form-control" id="alamat" name="alamat" rows="3" placeholder="Masukkan Alamat Lengkap Sesuai KTP" required></textarea>
                                             </div>
                                         </div>
 									    <div class="card-footer">

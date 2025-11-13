@@ -9,7 +9,7 @@ if(isset($_GET['status'])){
 	} else if($_GET['status'] == 'editsuccess'){
 		echo "<script>alert('Data agama berhasil diubah.');</script>";
 	} else if($_GET['status'] == 'deletesuccess'){
-		echo "<script>alert('Data agama berhasil dihapus.');</script>";
+		echo "<script>alert('Dataagamaberhasil dihapus.');</script>";
 	} else if($_GET['status'] == 'deletefailed'){
 		echo "<script>alert('Gagal menghapus data agama. Silakan coba lagi.');</script>";
 	}
@@ -95,7 +95,7 @@ $dataAgama = $master->getAgama();
 															</tr>';
 														}
 													}
-												?>
+												?>i
 											</tbody>
 										</table>
 									</div>

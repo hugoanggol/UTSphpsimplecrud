@@ -18,7 +18,7 @@
 					<div class="container-fluid">
 						<div class="row">
 							<div class="col-sm-6">
-								<h3 class="mb-0">Aplikasi SIMPEN</h3>
+								<h3 class="mb-0">Aplikasi SIMPDUK</h3>
 							</div>
 							<div class="col-sm-6">
 								<ol class="breadcrumb float-sm-end">
@@ -50,10 +50,10 @@
 									</div>
 
 									<div class="card-body">
-										<p>Halo user! SIMPEN merupakan singkatan dari Sistem Informasi CRUD Penduduk, aplikasi ini bertujuan untuk mengajarkan bagaimana merancang sebuah dashboard pengelolaan dengan konsep CRUD menggunakan bahasa pemrograman PHP. Penulisan kode menggunakan OOP (Object Oriented Programming). Silakan gunakan secara bijak dan modifikasi sesuai keperluan!</p>
+										<p>Halo user! SIMPDUK merupakan singkatan dari Sistem Informasi CRUD Penduduk, aplikasi ini bertujuan untuk mengajarkan bagaimana merancang sebuah dashboard pengelolaan dengan konsep CRUD menggunakan bahasa pemrograman PHP. Penulisan kode menggunakan OOP (Object Oriented Programming). Silakan gunakan secara bijak dan modifikasi sesuai keperluan!</p>
 										<p>Silakan pilih salah satu tombol untuk memulai!</p>
 										<a href="data-input.php" class="btn btn-primary btn-lg"><i class="bi bi-clipboard-data-fill"></i> Input Data Penduduk</a>
-										<a href="data-list.php" class="btn btn-success btn-lg"><i class="bi bi-card-list"></i> Lihat Daftar Penduduk </a>
+										<a href="data-list.php" class="btn btn-success btn-lg"><i class="bi bi-card-list"></i> Lihat Daftar Penduduk</a>
 										<a href="data-search.php" class="btn btn-warning btn-lg"><i class="bi bi-search-heart-fill"></i> Cari Penduduk</a>
 									</div>
 

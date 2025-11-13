@@ -2,7 +2,7 @@
     <div class="sidebar-brand">
         <a href="index.php" class="brand-link">
             <img src="assets/img/logo.png" alt="AdminLTE Logo" class="brand-image opacity-75 shadow" />
-            <span class="brand-text fw-light">SIMPEN-CRUD</span>
+            <span class="brand-text fw-light">SIMPDUK-CRUD</span>
         </a>
     </div>
 
@@ -38,7 +38,7 @@
                 <li class="nav-item">
                     <a href="master-agama-list.php" class="nav-link">
                         <i class="nav-icon bi bi-building"></i>
-                        <p>Agama </p>
+                        <p>Agama</p>
                     </a>
                 </li>
                 <li class="nav-item">

@@ -1,24 +1,26 @@
 <?php
 
 // Memasukkan file class-penduduk.php untuk mengakses class Penduduk
-include_once '../config/class-mahasiswa.php';
+include_once '../config/class-penduduk.php';
 // Membuat objek dari class Penduduk
-$Penduduk = new Penduduk;
+$penduduk = new Penduduk();
 // Mengambil data penduduk dari form edit menggunakan metode POST dan menyimpannya dalam array
 $dataPenduduk = [
-    'nik' => $_POST['nik'],
-    'nama' => $_POST['nama'],
-    'tempat' => $_POST['tempat'],
-    'tanggal' => $_POST['tanggal'],
-    'tahun' => $_POST['tahun'],
-    'provinsi' => $_POST['provinsi'],
-    'agama' => $_POST['agama'],
-    'gender' => $_POST['gender'],
-    'status' => $_POST['status'],
-    'alamat' => $_POST['alamat'],
+
+    'nik'      => $_POST['nik'],
+    'nama'     => $_POST['nama'],
+   'tempat'    => $_POST['tempat'],
+    'tanggal'  => $_POST['tanggal'],
+    'tahun'    => $_POST['tahun'],
+    'alamat'   => $_POST['alamat'],
+    'provinsi' =>$_POST['provinsi'],
+    'domisili' => $_POST['domisili'],
+    'perkerjaan' => $_POST['perkerjaan'],
+     'agama'   => $_POST['agama'],
+    'status'   => $_POST['status']
 ];
-// Memanggil method edit Penduduk untuk mengupdate data penduduk dengan parameter array $dataPenduduk
-$edit = $Penduduk->editPenduduk($dataPenduduk);
+// Memanggil method editPenduduk untuk mengupdate data penduduk dengan parameter array $dataPenduduk
+$edit = $penduduk->editPenduduk($dataPenduduk);
 // Mengecek apakah proses edit berhasil atau tidak - true/false
 if($edit){
     // Jika berhasil, redirect ke halaman data-list.php dengan status editsuccess

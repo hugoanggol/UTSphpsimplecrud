@@ -1,7 +1,7 @@
 <?php
 
-include_once 'config/class-mahasiswa.php';
-$Penduduk = new  Penduduk();
+include_once 'config/class-penduduk.php';
+$penduduk = new Penduduk();
 // Menampilkan alert berdasarkan status yang diterima melalui parameter GET
 if(isset($_GET['status'])){
 	// Mengecek nilai parameter GET 'status' dan menampilkan alert yang sesuai menggunakan JavaScript
@@ -15,8 +15,7 @@ if(isset($_GET['status'])){
 		echo "<script>alert('Gagal menghapus data penduduk. Silakan coba lagi.');</script>";
 	}
 }
-$dataPenduduk = $Penduduk->getAllPenduduk();
-
+$dataPenduduk = $penduduk->getAllPenduduk();
 
 ?>
 <!doctype html>
@@ -75,13 +74,14 @@ $dataPenduduk = $Penduduk->getAllPenduduk();
 													<th>No</th>
 													<th>NIK</th>
 													<th>Nama</th>
-													<th>Tempatlahir</th>
-													<th>Tanggallahir</th>
-													<th>Tahunlahir</th>
-													<th>Provinsi</th>
-													<th>Agama</th>
-													<th>Gender</th>
+													<th>Tempat</th>
+													<th>Tanggal</th>
+													<th>Tahun</th>
 													<th>Alamat</th>
+													<th>Provinsi</th>
+													<th>Domisili</th>
+													<th>Perkerjaan</th>
+													<th>Agama</th>
 													<th class="text-center">Status</th>
 												</tr>
 											</thead>
@@ -89,30 +89,31 @@ $dataPenduduk = $Penduduk->getAllPenduduk();
 												<?php
 													if(count($dataPenduduk) == 0){
 													    echo '<tr class="align-middle">
-															<td colspan="10" class="text-center">Tidak ada data penduduk.</td>
+															<td colspan="10" class="text-center">Tidak ada data penduduka.</td>
 														</tr>';
 													} else {
-														foreach ($dataPenduduk as $index => $Penduduk){
-														if($Penduduk['status'] == 1){
-														    $Penduduk['status'] = '<span class="badge bg-success">Menikah</span>';
-														} elseif($Penduduk['status'] == 2){
-															$Penduduk['status'] = '<span class="badge bg-danger">Belum Menikah</span>';
-														}
+														foreach ($dataPenduduk as $index => $penduduk){
+															if($penduduk['status'] == 1){
+															    $penduduk['status'] = '<span class="badge bg-success">Menikah</span>';
+															} elseif($penduduk['status'] == 2){
+															    $penduduk['status'] = '<span class="badge bg-danger">Tidak Menikah</span>';
+															}
 															echo '<tr class="align-middle">
 																<td>'.($index + 1).'</td>
-																<td>'.$Penduduk['nik'].'</td>
-																<td>'.$Penduduk['nama'].'</td>
-																<td>'.$Penduduk['tempat'].'</td>
-																<td>'.$Penduduk['tanggal'].'</td>
-																<td>'.$Penduduk['tahun'].'</td>
-																<td>'.$Penduduk['provinsi'].'</td>
-																<td>'.$Penduduk['agama'].'</td>
-																<td>'.$Penduduk['gender'].'</td>
-																<td>'.$Penduduk['alamat'].'</td>
-																<td class="text-center">'.$Penduduk['status'].'</td>
+																<td>'.$penduduk['nik'].'</td>
+																<td>'.$penduduk['nama'].'</td>
+																<td>'.$penduduk['tempat'].'</td>
+																<td>'.$penduduk['tanggal'].'</td>
+																<td>'.$penduduk['tahun'].'</td>
+																<td>'.$penduduk['alamat'].'</td>
+																<td>'.$penduduk['provinsi'].'</td>
+																<td>'.$penduduk['domisili'].'</td>
+																<td>'.$penduduk['perkerjaan'].'</td>
+																<td>'.$penduduk['agama'].'</td>
+																<td class="text-center">'.$penduduk['status'].'</td>
 																<td class="text-center">
-																	<button type="button" class="btn btn-sm btn-warning me-1" onclick="window.location.href=\'data-edit.php?id='.$Penduduk['id'].'\'"><i class="bi bi-pencil-fill"></i> Edit</button>
-																	<button type="button" class="btn btn-sm btn-danger" onclick="if(confirm(\'Yakin ingin menghapus data penduduk ini?\')){window.location.href=\'proses/proses-delete.php?id='.$Penduduk['id'].'\'}"><i class="bi bi-trash-fill"></i> Hapus</button>
+																	<button type="button" class="btn btn-sm btn-warning me-1" onclick="window.location.href=\'data-edit.php?id='.$penduduk['id'].'\'"><i class="bi bi-pencil-fill"></i> Edit</button>
+																	<button type="button" class="btn btn-sm btn-danger" onclick="if(confirm(\'Yakin ingin menghapus data penduduk ini?\')){window.location.href=\'proses/proses-delete.php?id='.$penduduk['id'].'\'}"><i class="bi bi-trash-fill"></i> Hapus</button>
 																</td>
 															</tr>';
 														}

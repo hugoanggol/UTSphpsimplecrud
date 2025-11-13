@@ -1,14 +1,14 @@
 <?php
 
-include_once 'config/class-mahasiswa.php';
-$Penduduk = new Penduduk();
+include_once 'config/class-penduduk.php';
+$penduduk= new Penduduk();
 $kataKunci = '';
 // Mengecek apakah parameter GET 'search' ada
 if(isset($_GET['search'])){
 	// Mengambil kata kunci pencarian dari parameter GET 'search'
 	$kataKunci = $_GET['search'];
-	// Memanggil method searchPenduduk untuk mencari data penduduk berdasarkan kata kunci dan menyimpan hasil dalam variabel $cariPenduduk
-	$cariPenduduk = $Penduduk->searchPenduduk($kataKunci);
+	// Memanggil method searchPenduduk untuk mencari data penduduk berdasarkan kata kunci dan menyimpan hasil dalam variabel $cariMahasiswa
+	$cariPenduduk = $penduduk->searchPenduduk($kataKunci);
 } 
 ?>
 <!doctype html>
@@ -36,7 +36,7 @@ if(isset($_GET['search'])){
 							<div class="col-sm-6">
 								<ol class="breadcrumb float-sm-end">
 									<li class="breadcrumb-item"><a href="index.php">Beranda</a></li>
-									<li class="breadcrumb-item active" aria-current="page">Cari Data</li>
+									<li class="breadcrumb-item active" aria-current="page">Cari Data Penduduk</li>
 								</ol>
 							</div>
 						</div>
@@ -93,60 +93,62 @@ if(isset($_GET['search'])){
 												echo '<table class="table table-striped" role="table">
 													<thead>
 														<tr>
-														<th>No</th>
-														<th>NIK</th>
-													    <th>Nama</th>
-													    <th>Tempatlahir</th>
-													    <th>Tanggallahir</th>
-													    <th>Tahunlahir</th>
-													    <th>Provinsi</th>
-													    <th>Agama</th>
-													    <th>Gender</th>
-													    <th>Alamat</th>
-														<th class="text-center">Status</th>
+															<th>No</th>
+													        <th>NIK</th>
+													        <th>Nama</th>
+													        <th>Tempat</th>
+															<th>Tanggal</th>
+															<th>Tahun</th>
+															<th>Alamat</th>
+															<th>Provinsi</th>
+															<th>Domisili</th>
+															<th>Perkerjaan</th>
+															<th>Agama</th>
+															<th class="text-center">Status</th>
 														</tr>
 													</thead>
 													<tbody>';
 													// Iterasi data penduduk yang ditemukan dan menampilkannya dalam tabel
-													foreach ($cariPenduduk as $index => $Penduduk){
+													foreach ($cariPenduduk as $index => $penduduk){
 														// Mengubah status penduduk menjadi badge dengan warna yang sesuai
-														if($Penduduk['status'] == 1){
-															$Penduduk['status'] = '<span class="badge bg-success">Menikah</span>';
-														} elseif($Penduduk['status'] == 2){
-															$Penduduk['status'] = '<span class="badge bg-danger">Belum Menikah</span>';
-														}
+														if($penduduk['status'] == 1){
+															$penduduk['status'] = '<span class="badge bg-success">Menikah</span>';
+														} elseif($penduduk['status'] == 2){
+															$penduduk['status'] = '<span class="badge bg-danger">Tidak Menikah</span>';
 														
+														} 
 														// Menampilkan baris data penduduk dalam tabel
 														echo '<tr class="align-middle">
-																<td>'.($index + 1).'</td>
-																<td>'.$Penduduk['nik'].'</td>
-																<td>'.$Penduduk['nama'].'</td>
-																<td>'.$Penduduk['tempat'].'</td>
-																<td>'.$Penduduk['tanggal'].'</td>
-																<td>'.$Penduduk['tahun'].'</td>
-																<td>'.$Penduduk['provinsi'].'</td>
-																<td>'.$Penduduk['agama'].'</td>
-																<td>'.$Penduduk['gender'].'</td>
-																<td>'.$Penduduk['alamat'].'</td>
-																<td class="text-center">'.$Penduduk['status'].'</td>
-																<td class="text-center">
-																<button type="button" class="btn btn-sm btn-warning me-1" onclick="window.location.href=\'data-edit.php?id='.$Penduduk['id'].'\'"><i class="bi bi-pencil-fill"></i> Edit</button>
-																<button type="button" class="btn btn-sm btn-danger" onclick="if(confirm(\'Yakin ingin menghapus data penduduk ini?\')){window.location.href=\'proses/proses-delete.php?id='.$Penduduk['id'].'\'}"><i class="bi bi-trash-fill"></i> Hapus</button>
+															<td>'.($index + 1).'</td>
+															<td>'.$penduduk['nik'].'</td>
+															<td>'.$penduduk['nama'].'</td>
+															<td>'.$penduduk['tempat'].'</td>
+															<td>'.$penduduk['tanggal'].'</td>
+															<td>'.$penduduk['tahun'].'</td>
+															<td>'.$penduduk['alamat'].'</td>
+															<td>'.$penduduk['provinsi'].'</td>
+															<td>'.$penduduk['domisili'].'</td>
+															<td>'.$penduduk['perkerjaan'].'</td>
+															<td>'.$penduduk['agama'].'</td>
+															<td class="text-center">'.$penduduk['status'].'</td>
+															<td class="text-center">
+																<button type="button" class="btn btn-sm btn-warning me-1" onclick="window.location.href=\'data-edit.php?id='.$penduduk['id'].'\'"><i class="bi bi-pencil-fill"></i> Edit</button>
+																<button type="button" class="btn btn-sm btn-danger" onclick="if(confirm(\'Yakin ingin menghapus data penduduk ini?\')){window.location.href=\'proses/proses-delete.php?id='.$penduduk['id'].'\'}"><i class="bi bi-trash-fill"></i> Hapus</button>
 															</td>
 														</tr>';
 													}
 												echo '</tbody>
 												</table>';
 											} else {
-												// Menampilkan pesan jika tidak ada data penduduk yang ditemukan
+												// Menampilkan pesan jika tidak ada data mahasiswa yang ditemukan
 												echo '<div class="alert alert-warning" role="alert">
-														Tidak ditemukan data penduduk yang sesuai dengan kata kunci "<strong>'.htmlspecialchars($_GET['search']).'</strong>".
+														Tidak ditemukan data mahasiswa yang sesuai dengan kata kunci "<strong>'.htmlspecialchars($_GET['search']).'</strong>".
 													  </div>';
 											}
 										} else {
 											// Menampilkan pesan jika form pencarian belum disubmit
 											echo '<div class="alert alert-info" role="alert">
-													Silakan masukkan kata kunci pencarian di atas untuk mencari data penduduk.
+													Silakan masukkan kata kunci pencarian di atas untuk mencari data mahasiswa.
 												  </div>';
 										}
 										?>

@@ -41,20 +41,11 @@ class MasterData extends Database {
     public function getStatus(){
         return [
             ['id' => 1, 'nama' => 'Menikah'],
-            ['id' => 2, 'nama' => 'Belum Menikah'],
-           
+            ['id' => 2, 'nama' => 'Tidak Menikah'],
         
-            
         ];
     }
-//  Method untuk mendapatkan daftar gender penduduk menggunakan array statis
- public function getGender(){
-        return [
-            ['id' => 1, 'nama' => 'Laki-laki'],
-            ['id' => 2, 'nama' => 'Perempuan'],
-            
-        ];
-    }
+   
     // Method untuk input data agama
     public function inputAgama($data){
         $kodeAgama = $data['kode'];
@@ -70,37 +61,33 @@ class MasterData extends Database {
         return $result;
     }
 
-   // Method untuk mendapatkan data agama berdasarkan kode
-public function getUpdateAgama($id){
-    $query = "SELECT * FROM tb_agama WHERE kode_agama = ?";
-    $stmt = $this->conn->prepare($query);
-    if(!$stmt){
-        return false;
+    // Method untuk mendapatkan data agama berdasarkan kode
+    public function getUpdateAgama($id){
+        $query = "SELECT * FROM tb_agama WHERE kode_agama = ?";
+        $stmt = $this->conn->prepare($query);
+        if(!$stmt){
+            return false;
+        }
+        $stmt->bind_param("s", $id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $agama = null;
+        if($result->num_rows > 0){
+            $row = $result->fetch_assoc();
+            $agama = [
+                'id' => $row['kode_agama'],
+                'nama' => $row['nama_agama']
+            ];
+        }
+        $stmt->close();
+        return $agama;
     }
-    
-    $stmt->bind_param("s", $id);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    
-    $agama = null;
-    if($result->num_rows > 0){
-        $row = $result->fetch_assoc();
-        $agama = [
-            'kode' => $row['kode_agama'],
-            'nama' => $row['nama_agama']
-        ];
-    }
-    
-    $stmt->close();
-    return $agama;
-}
-
 
     // Method untuk mengedit data agama
     public function updateAgama($data){
         $kodeAgama = $data['kode'];
         $namaAgama = $data['nama'];
-        $query = "UPDATE tb_agama SET nama_agama = ? WHERE kode_agama = ?";
+        $query = "UPDATE tb_agama SET nama_agama = ? WHERE kode_agama= ?";
         $stmt = $this->conn->prepare($query);
         if(!$stmt){
             return false;

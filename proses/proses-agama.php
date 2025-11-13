@@ -22,24 +22,24 @@ if($_GET['aksi'] == 'inputagama'){
     }
 } elseif($_GET['aksi'] == 'updateagama'){
     // Mengambil data agama dari form edit menggunakan metode POST dan menyimpannya dalam array
-    $dataProdi = [
+    $dataAgama = [
         'id' => $_POST['id'],
         'kode' => $_POST['kode'],
         'nama' => $_POST['nama']
     ];
-    // Memanggil method updateProdi untuk mengupdate data agama dengan parameter array $dataProdi
+    // Memanggil method updateAgama untuk mengupdate data agama dengan parameter array $dataAgama
     $update = $master->updateAgama($dataAgama);
     if($update){
         // Jika berhasil, redirect ke halaman master-agama-list.php dengan status editsuccess
         header("Location: ../master-agama-list.php?status=editsuccess");
     } else {
-        // Jika gagal, redirect ke halaman master-agama-edit.php dengan status failed dan membawa id Agama
+        // Jika gagal, redirect ke halaman master-agama-edit.php dengan status failed dan membawa id agama
         header("Location: ../master-agama-edit.php?id=".$dataAgama['id']."&status=failed");
     }
 } elseif($_GET['aksi'] == 'deleteagama'){
     // Mengambil id agama dari parameter GET
     $id = $_GET['id'];
-    // Memanggil method delete Agama untuk menghapus data agama berdasarkan id
+    // Memanggil method deleteAgama untuk menghapus data agama berdasarkan id
     $delete = $master->deleteAgama($id);
     if($delete){
         // Jika berhasil, redirect ke halaman master-agama-list.php dengan status deletesuccess

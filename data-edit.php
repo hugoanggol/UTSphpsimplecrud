@@ -1,19 +1,17 @@
 <?php 
 
 include_once 'config/class-master.php';
-include_once 'config/class-mahasiswa.php';
+include_once 'config/class-penduduk.php';
 $master = new MasterData();
-$Penduduk = new penduduk ();
-// Mengambil daftar agama, provinsi, gender dan status pendudk
-$agamaList = $master->getAgama();
+$penduduk = new Penduduk();
+// Mengambil daftar agama, provinsi, dan status penduduk
+$agamaList = $master->getagama();
 // Mengambil daftar provinsi
 $provinsiList = $master->getProvinsi();
 // Mengambil daftar status penduduk
 $statusList = $master->getStatus();
-// Mengambil daftar status penduduk
-$genderList = $master->getGender();
 // Mengambil data penduduk yang akan diedit berdasarkan id dari parameter GET
-$dataPenduduk = $Penduduk->getUpdatePenduduk($_GET['id']);
+$dataPenduduk = $penduduk->getUpdatePenduduk($_GET['id']);
 if(isset($_GET['status'])){
     if($_GET['status'] == 'failed'){
         echo "<script>alert('Gagal mengubah data penduduk. Silakan coba lagi.');</script>";
@@ -40,7 +38,7 @@ if(isset($_GET['status'])){
 					<div class="container-fluid">
 						<div class="row">
 							<div class="col-sm-6">
-								<h3 class="mb-0">Edit Data Penduduk</h3>
+								<h3 class="mb-0">Edit Penduduk</h3>
 							</div>
 							<div class="col-sm-6">
 								<ol class="breadcrumb float-sm-end">
@@ -73,15 +71,15 @@ if(isset($_GET['status'])){
 									    <div class="card-body">
                                             <input type="hidden" name="id" value="<?php echo $dataPenduduk['id']; ?>">
                                             <div class="mb-3">
-                                                <label for="nik" class="form-label">Nomor Induk Penduduk</label>
-                                                <input type="number" class="form-control" id="nik" name="nik" placeholder="Masukkan NIK PendudUK" value="<?php echo $dataPenduduk['nik']; ?>" required>
+                                                <label for="nik" class="form-label">Nomor Induk Kependuduk (NIK)</label>
+                                                <input type="number" class="form-control" id="nik" name="nik" placeholder="Masukkan NIK Penduduk" value="<?php echo $dataPenduduk['nik']; ?>" required>
                                             </div>
                                             <div class="mb-3">
-                                                <label for="nama" class="form-label">Nama Lengkap Penduduk</label>
-                                                <input type="text" class="form-control" id="nama" name="nama" placeholder="Masukkan nama Penduduk" value="<?php echo $dataPenduduk['nama']; ?>" required>
+                                                <label for="nama" class="form-label">Nama Lengkap</label>
+                                                <input type="text" class="form-control" id="nama" name="nama" placeholder="Masukkan Nama Lengkap Penduduk" value="<?php echo $dataPenduduk['nama']; ?>" required>
                                             </div>
                                             <div class="mb-3">
-                                                <label for="tempat" class="form-label">Tempat Lahir</label>
+                                                <label for="tempat" class="form-label">Tempat lahir</label>
                                                 <input type="text" class="form-control" id="tempat" name="tempat" placeholder="Masukkan Tempat Lahir" value="<?php echo $dataPenduduk['tempat']; ?>" required>
                                             </div>
                                             <div class="mb-3">
@@ -90,18 +88,22 @@ if(isset($_GET['status'])){
                                             </div>
                                             <div class="mb-3">
                                                 <label for="tahun" class="form-label">Tahun Lahir</label>
-                                                <input type="number" class="form-control" id="tahun" name="tahun" placeholder="Masukkan Tahun tahun" value="<?php echo $dataPenduduk['tahun']; ?>" required>
+                                                <input type="number" class="form-control" id="tahun" name="tahun" placeholder="Masukkan Tahun Lahir" value="<?php echo $dataPenduduk['tahun']; ?>" required>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="alamat" class="form-label">Alamat</label>
+                                                 <input type="text" class="form-control" id="alamat" name="alamat" rows="3" placeholder="Masukkan Alamat Lengkap Sesuai KTP" value="<?php echo $dataPenduduk['alamat']; ?>" required>
                                             </div>
                                             <div class="mb-3">
                                                 <label for="provinsi" class="form-label">Provinsi</label>
                                                 <select class="form-select" id="provinsi" name="provinsi" required>
                                                     <option value="" selected disabled>Pilih Provinsi</option>
                                                     <?php
-                                                    // Iterasi daftar provinsi dan menandai yang sesuai dengan data penduduk yang dipilih
+                                                    // Iterasi daftar provinsi dan menandai yang sesuai dengan data mahasiswa yang dipilih
                                                     foreach ($provinsiList as $provinsi){
                                                         // Menginisialisasi variabel kosong untuk menandai opsi yang dipilih
                                                         $selectedProvinsi = "";
-                                                        // Mengecek apakah provinsi saat ini sesuai dengan data selebriti
+                                                        // Mengecek apakah provinsi saat ini sesuai dengan data mahasiswa
                                                         if($dataPenduduk['provinsi'] == $provinsi['id']){
                                                             // Jika sesuai, tandai sebagai opsi yang dipilih
                                                             $selectedProvinsi = "selected";
@@ -113,55 +115,44 @@ if(isset($_GET['status'])){
                                                 </select>
                                             </div>
                                             <div class="mb-3">
+                                                <label for="domisili" class="form-label">Domisili</label>
+                                                <input type="domisili" class="form-control" id="domisili" name="domisili" placeholder="Masukkan Domisili" value="<?php echo $dataPenduduk['domisili']; ?>" required>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="perkerjaan" class="form-label">Perkerjaan</label>
+                                                <input type="perkerjaan" class="form-control" id="perkerjaan" name="perkerjaan" placeholder="Masukkan Perkerjaan" value="<?php echo $dataPenduduk['perkerjaan']; ?>" required>
+                                            </div>
+                                            <div class="mb-3">
                                                 <label for="agama" class="form-label">Agama</label>
-                                                <select class="form-select" id="provinsi" name="agama" required>
+                                                <select class="form-select" id="agama" name="agama" required>
                                                     <option value="" selected disabled>Pilih Agama</option>
-                                                    <?php
-                                                    // Iterasi daftar provinsi dan menandai yang sesuai dengan data penduduk yang dipilih
+                                                    <?php 
+                                                    // Iterasi daftar agama dan menandai yang sesuai dengan data penduduk yang dipilih
                                                     foreach ($agamaList as $agama){
                                                         // Menginisialisasi variabel kosong untuk menandai opsi yang dipilih
                                                         $selectedAgama = "";
-                                                        // Mengecek apakah provinsi saat ini sesuai dengan data selebriti
+                                                        // Mengecek apakah agama saat ini sesuai dengan data penduduk
                                                         if($dataPenduduk['agama'] == $agama['id']){
                                                             // Jika sesuai, tandai sebagai opsi yang dipilih
                                                             $selectedAgama = "selected";
                                                         }
-                                                        // Menampilkan opsi provinsi dengan penanda yang sesuai
+                                                        // Menampilkan opsi agama dengan penanda yang sesuai
                                                         echo '<option value="'.$agama['id'].'" '.$selectedAgama.'>'.$agama['nama'].'</option>';
                                                     }
                                                     ?>
                                                 </select>
                                             </div>
-                                             <div class="mb-3">
-                                                <label for="gender" class="form-label">Gender</label>
-                                                <select class="form-select" id="gender" name="gender" required>
-                                                    <option value="" selected disabled>Pilih Gender</option>
-                                                    <?php
-                                                    // Iterasi daftar gender dan menandai yang sesuai dengan data penduduk yang dipilih
-                                                    foreach ($genderList as $gender){
-                                                        // Menginisialisasi variabel kosong untuk menandai opsi yang dipilih
-                                                        $selectedGender = "";
-                                                        // Mengecek apakah gender saat ini sesuai dengan data penduduk
-                                                        if($dataPenduduk['gender'] == $gender['id']){
-                                                            // Jika sesuai, tandai sebagai opsi yang dipilih
-                                                            $selectedGender = "selected";
-                                                        }
-                                                        // Menampilkan opsi provinsi dengan penanda yang sesuai
-                                                        echo '<option value="'.$gender['id'].'" '.$selectedGender.'>'.$gender['nama'].'</option>';
-                                                    }
-                                                    ?>
-                                                </select>
-                                            </div>
+                                        
                                             <div class="mb-3">
-                                                <label for="status" class="form-label">Status</label>
+                                                <label for="sts" class="form-label">Status</label>
                                                 <select class="form-select" id="status" name="status" required>
                                                     <option value="" selected disabled>Pilih Status</option>
                                                     <?php 
-                                                    // Iterasi daftar status selebriti dan menandai yang sesuai dengan data selebriti yang dipilih
+                                                    // Iterasi daftar status mahasiswa dan menandai yang sesuai dengan data mahasiswa yang dipilih
                                                     foreach ($statusList as $status){
                                                         // Menginisialisasi variabel kosong untuk menandai opsi yang dipilih
                                                         $selectedStatus = "";
-                                                        // Mengecek apakah status saat ini sesuai dengan data selebriti
+                                                        // Mengecek apakah status saat ini sesuai dengan data mahasiswa
                                                         if($dataPenduduk['status'] == $status['id']){
                                                             // Jika sesuai, tandai sebagai opsi yang dipilih
                                                             $selectedStatus = "selected";
@@ -171,10 +162,6 @@ if(isset($_GET['status'])){
                                                     }
                                                     ?>
                                                 </select>
-                                                 <div class="mb-3">
-                                                <label for="alamat" class="form-label">Alamat</label>
-                                                <textarea class="form-control" id="alamat" name="alamat" rows="3" placeholder="Masukkan Alamat Lengkap Sesuai KTP" required><?php echo $dataPenduduk['alamat']; ?></textarea>
-                                            </div>
                                             </div>
                                         </div>
 									    <div class="card-footer">

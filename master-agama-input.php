@@ -60,7 +60,7 @@ if(isset($_GET['status'])){
                                     <form action="proses/proses-agama.php?aksi=inputagama" method="POST">
 									    <div class="card-body">
                                             <div class="mb-3">
-                                                <label for="kode" class="form-label">Kode </label>
+                                                <label for="nama" class="form-label">Kode Agama</label>
                                                 <input type="text" class="form-control" id="kode" name="kode" placeholder="Masukkan Kode Agama" required>
                                             </div>
 											<div class="mb-3">
